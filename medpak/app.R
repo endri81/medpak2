@@ -10,7 +10,8 @@ readRDS("data.rds")
 ui <- fluidPage(
     
     # App title ----
-    titlePanel("Reactivity"),
+    includeCSS("styles.css"),
+    h1(id="big-heading", "Shërbime për fëmijët me aftësi të kufizuar"),
     
     # Sidebar layout with input and output definitions ----
     sidebarLayout(
@@ -97,6 +98,7 @@ server <- function(input, output) {
     inFile <- input$file1 
         if (!is.null(inFile)) {
                 data <- read_excel(inFile$datapath)
+                data <- data[, -c(1:2)]
                 DT::datatable(data, 
                               extensions = c('Buttons','Scroller', 'SearchPanes'), 
                               options = list(
@@ -117,7 +119,7 @@ server <- function(input, output) {
                 
         }
         else {
-            DT::datatable(data, 
+            DT::datatable(data[, -c(1:2)], 
             extensions = c('Buttons','Scroller', 'SearchPanes'), 
             options = list(
                 dom = 'Bfrtip',
